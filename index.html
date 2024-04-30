@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://kit.fontawesome.com/e3c45f7655.js" crossorigin="anonymous"></script>
+
+    <!-- fancy heading -->
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+
+
+    <!-- navbar -->
+        <nav>
+            <h1 class="pacifico-regular">TODO LIST</h1>
+        </nav>
+
+    <!-- to do list add tasks + task list + clear button -->
+
+        <div class="todo-list">
+            <div class="input-box">
+                <input type="text" placeholder="Write your tasks here..." id="input-text">
+                <button type="submit" id="submit-task">ADD</button>
+            </div>
+        
+
+            <div class="list-contents">
+
+                <div class="headings">
+                    <p>TASKS</p>
+                    <p>CATEGORY</p>
+                    <p>ACTIONS</p>
+                </div>        
+            
+                <div id="tasks">
+                    <!-- <i class="fa-regular fa-square" style="font-size: 2em;"></i>
+                    <i class="fa-regular fa-square-check" style="font-size: 2em;"></i>
+                    <i class="fa-solid fa-xmark" style="font-size: 2em;"></i> -->
+
+
+                </div>
+                
+            </div>
+
+            <div class="clear-button">
+                <button type="submit" id="clear-btn">
+                    CLEAR ALL TASKS
+                </button>
+                
+                <button class="activeBtn">ACTIVE TASKS</button>
+                <button class="completeBtn">COMPLETE TASKS</button>
+            </div>
+
+        </div>
+
+
+
+    </div>
+  
+
+    <script src="scripts.js"></script>
+</body>
+</html>

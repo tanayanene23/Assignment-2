@@ -1,0 +1,39 @@
+Problem Statement:
+
+Create an interactive to-do list web application that allows users to add, edit, and remove tasks. The application should provide a simple and intuitive user interface for managing their tasks effectively.
+
+Requirements:
+
+1. Task List Display: Display an empty task list when the page loads. Each task should have a checkbox, task description, and an option to delete the task.
+
+2. Add Task: Provide a text input field and an "Add" button. When the user enters a task description and clicks the "Add" button, the task should be added to the list.
+
+3. Edit Task: Allow users to edit a task's description by clicking on it. Display an editable input field when a user clicks on a task's description. After editing, the user can press Enter or click outside the input field to save the changes.
+
+4. Mark Task as Completed: Users should be able to mark a task as completed by clicking its checkbox. Completed tasks should be visually distinguished from active tasks.
+
+5. Delete Task: Provide a delete button (e.g., a small "x" icon) next to each task. Clicking the delete button should remove the task from the list.
+
+6. Local Storage: Persist the task list in the browser's local storage, so that the tasks are retained even after the user closes the browser.
+
+7. Clear All Tasks: Include a "Clear All" button that clears all tasks from the list. Provide a confirmation prompt before clearing all tasks.
+
+8. Responsive Design: Ensure that the application is responsive and works well on both desktop and mobile devices.
+
+Bonus Challenges:
+
+1. Add due dates or priorities to tasks.
+
+2. Implement task categories or labels.
+
+3. Allow users to filter tasks by status (completed/active) or other attributes.
+
+4. Add animations or transitions to enhance the user experience.
+
+Guidelines:
+
+Use HTML for the structure and layout of the web page.
+
+Use JavaScript for adding interactivity and handling user actions.
+
+CSS can be used for styling and making the application visually appealing.
