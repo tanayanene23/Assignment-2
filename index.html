@@ -31,8 +31,25 @@
             <div class="list-contents">
 
                 <div class="headings">
-                    <p>TASKS</p>
-                    <p>CATEGORY</p>
+                    <div class="dropdown">
+                        <p>TASKS</p>
+                        <select name="filters" id="filters">
+                            <option value="default" disabled selected></option>
+                            <option value="All Tasks">All Tasks</option>
+                            <option value="Active Tasks">Active Tasks</option>
+                            <option value="Complete Tasks">Complete Tasks</option>
+                        </select>
+                    </div>
+                    <!-- <p>TASKS</p> -->
+                    <div class="dropdown">
+                        <p>CATEGORY</p>
+                        <select name="category" id="category">
+                            <option value="default" disabled selected></option>
+                            <option value="Work">Work</option>
+                            <option value="Household">Household</option>
+                            <option value="Shopping">Shopping</option>
+                        </select>
+                    </div>
                     <p>ACTIONS</p>
                 </div>        
             
@@ -43,16 +60,28 @@
 
 
                 </div>
+
+                <div class="pagination" id="pagination">
+                    <a href="#" id="previous">Previous</a>
+                    <!-- <a href="#" class="page-link" data-page="1">1</a>
+                    <a href="#" class="page-link" data-page="2">2</a>
+                    <a href="#" class="page-link" data-page="3">3</a> -->
+                    <a href="#" id="next">Next</a>
+                    <p id="page-numbers"> </p>
+                </div>
                 
             </div>
 
             <div class="clear-button">
+                
                 <button type="submit" id="clear-btn">
                     CLEAR ALL TASKS
                 </button>
                 
+
+                <!-- <button class="displayAll">ALL TASKS</button>
                 <button class="activeBtn">ACTIVE TASKS</button>
-                <button class="completeBtn">COMPLETE TASKS</button>
+                <button class="completeBtn">COMPLETE TASKS</button> -->
             </div>
 
         </div>
