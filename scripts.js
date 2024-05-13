@@ -1,32 +1,34 @@
 // taking the input value - enter a new task in input box
 const input = document.getElementById('input-text');
+const categoryInput = document.getElementById('input-category');
 const todoList = document.getElementById('tasks');
 // clicking the add button for adding a new task
 const submitButton = document.getElementById('submit-task');
 
 
 
-
-// // active and complete tasks
-// const activeTask = document.querySelector(".activeBtn");
-// const completeTask = document.querySelector(".completeBtn");
-// const displayAll = document.querySelector(".displayAll")
-// const toselectli = document.querySelectorAll('li');
-
-
-
 submitButton.addEventListener('click', function(e){
     const inputText = input.value;
+    const inputCategory = categoryInput.value;
  
-    if(inputText == '' || inputText.length < 3){
+    if(inputText == ''){
         alert('Please enter a task');
     }
-    else{
-        addTask(inputText);
+    else if(inputCategory == ''){
+        alert('Please enter a category');
     }
-   
+    else if(inputText.length < 3){
+        alert('Enter a valid task')
+    }
+    else if(inputCategory.length < 3){
+        alert('Enter a valid category')
+    }
+    else{
+        addTask(inputText, inputCategory);
+    }
     // clear the input field after adding task
     input.value = '';    
+    categoryInput.value = '';
 });
 
 
@@ -35,9 +37,19 @@ submitButton.addEventListener('click', function(e){
 const initiate =  function(e){
     if(e.key == "Enter"){
         const inputText = input.value;
+        const inputCategory = categoryInput.value;
  
-        if(inputText == '' || inputText.length < 3){
+        if(inputText == ''){
             alert('Please enter a task');
+        }
+        else if(inputCategory == ''){
+            alert('Please enter a category');
+        }
+        else if(inputText.length < 3){
+            alert('Enter a valid task')
+        }
+        else if(inputCategory.length < 3){
+            alert('Enter a valid category')
         }
         else{
             addTask(inputText);
@@ -45,6 +57,7 @@ const initiate =  function(e){
        
         // clear the input field after adding task
         input.value = '';    
+        categoryInput.value = '';
     }
 }
  
@@ -61,7 +74,7 @@ input.addEventListener('keypress', initiate);
 //  ----------------------------------addtask function---------------------------
 
 //  function to add a task along with checkbox, delete button, edit button
-function addTask(task, status){
+function addTask(task, taskCategory='', status=false){
     const listItem = document.createElement('li')
     // console.log(status)
  
@@ -72,6 +85,7 @@ function addTask(task, status){
     checkbox.setAttribute('class', 'checking');
     checkbox.checked = status;
     listItem.appendChild(checkbox);
+
   
     
     // editable task field
@@ -80,13 +94,27 @@ function addTask(task, status){
     // taskText.setAttribute('contenteditable', 'true');
     taskText.disabled = true  
     taskText.value = task;
-
+    listItem.appendChild(taskText);
 
     if(status){
         taskText.style.textDecoration = 'line-through'
     }
-    listItem.appendChild(taskText);
- 
+
+
+
+    // editable category:
+    let label = document.createElement('input')
+    label.setAttribute('class', 'label')
+    
+
+    label.disabled = true;
+    label.value = taskCategory;
+    label.setAttribute('id', `${taskCategory}`)
+
+
+    listItem.appendChild(label);
+
+
  
  
     // const deleteeButon = document.createElement('button');
@@ -95,56 +123,58 @@ function addTask(task, status){
  
  
     // edit button
-    const editButton = document.createElement('button');
-    editButton.textContent = "EDIT";
+    // const editButton = document.createElement('button');
+    // editButton.textContent = "Edit";
+
+    const editButton = document.createElement('i');
+    editButton.setAttribute('class', 'fa-solid fa-pen-to-square')
+    editButton.style.cursor = 'pointer'
  
  
  
               // editButton event
  
               editButton.addEventListener("click", function(e){
-                if(editButton.textContent === "EDIT"){
-                    taskText.disabled = false
+                if(editButton.classList.contains("fa-pen-to-square")){
+                    taskText.disabled = false;
+                    label.disabled = false;
                
-                    editButton.textContent = "SAVE"
+                    // editButton.textContent = "Save"
+                    editButton.classList.replace('fa-pen-to-square', 'fa-check');
+                    
                 }
-                else{
-                    taskText.disabled = true
-               
-                    editButton.textContent = "EDIT"
+                else
+                {
+                    taskText.disabled = true;
+                    label.disabled = true;
+
+                    // editButton.textContent = "Edit"
+                    editButton.classList.replace('fa-check', 'fa-pen-to-square')
  
+
                 }
                 saveTasksToLocalStorage()
             })
  
- 
- 
+
     listItem.appendChild(editButton);
- 
- 
- 
- 
- 
+
  
     // delete button
     const deleteButton = document.createElement('i');
-    deleteButton.setAttribute('class', 'fa-solid fa-xmark')
+    deleteButton.setAttribute('class', 'fa-solid fa-trash')
+    deleteButton.style.cursor = 'pointer'
+
+
  
     listItem.appendChild(deleteButton);
- 
-
     todoList.appendChild(listItem);
-
-
- 
- 
- 
    
  
         // checkbox event
         checkbox.addEventListener('change', function(e){
       
-            console.log(checkbox.value)
+            // console.log(checkbox.value)
             if(checkbox.checked){
                 
                 taskText.style.textDecoration = 'line-through';
@@ -167,13 +197,7 @@ function addTask(task, status){
             todoList.removeChild(listItem);
             saveTasksToLocalStorage()
         });   
-
-
-
- 
          saveTasksToLocalStorage();    
-
- 
 }
  
 // ----------------addtask function ends here----------------
@@ -190,33 +214,27 @@ function addTask(task, status){
         const tasks = [];
         document.querySelectorAll('#tasks li').forEach(task => {
             const taskText = task.querySelector('.input-field').value;
-            const completed = task.querySelector('.checking').checked
+            const completed = task.querySelector('.checking').checked;
+            const taskCategory = task.querySelector('.label').value;
             const individualTask = {
                 text: taskText, 
                 isCompleted: completed,
+                category: taskCategory,
             }
     
             tasks.push(individualTask);     
-
- 
         });
 
         localStorage.setItem('tasks', JSON.stringify(tasks))    
       }
- 
-
-
-  
-    
 
       
     // get all tasks from local storage
     const savedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
     savedTasks.forEach(task => {
-        addTask(task.text, task.isCompleted);
+        addTask(task.text,  task.category, task.isCompleted);
     });
  
-
 
 
     // ---------------------PAGINATION-------------------------
@@ -235,8 +253,9 @@ function addTask(task, status){
     const pagination = document.getElementById('pagination')
 
 
+    // dynamically create new pages as tasks increase
     for(let i=1; i<=totalPages; i++){
-        console.log(i);
+        // console.log(i);
         // <a href="#" class="page-link" data-page="3">3</a>
         const links = document.createElement('a');
         links.setAttribute('href', '#')
@@ -250,11 +269,7 @@ function addTask(task, status){
     }
 
     const pageLinks = document.querySelectorAll('.page-link')
-    console.log(pageLinks)    
-
-
-
-    
+    // console.log(pageLinks)        
 
 
     // function to display tasks for a specific page 
@@ -324,6 +339,10 @@ function addTask(task, status){
     })
 
 
+    displayPage(currentPage); 
+    updatePagination();
+
+
 
 
 
@@ -347,63 +366,13 @@ function addTask(task, status){
     });
 
 
+    // ----------------------dropdown based filtering:---------------------------
 
-
-    // active tasks and complete tasks event listners for buttons
-
-
-    // activeTask.addEventListener("click", function(e){
-    //     const toselectli = document.querySelectorAll('li')
-    //     toselectli.forEach(function(e){
-    //         // console.log(e)
-    //         // console.log(e.firstChild.checked)
-    //         if(e.firstChild.checked == true){
-    //             e.style.display = 'none'
-    //         }
-    //         else{
-    //             e.style.display = 'flex'
-    //         }
-    //         console.log("clicked activetask")
-    //         // displayPage(currentPage); 
-    //         // updatePagination();
-    //     })       
-    // })
-
-
-    // completeTask.addEventListener("click", function(e){
-    //     const toselectli = document.querySelectorAll('li')
-    //     toselectli.forEach(function(e){
-    //         if(e.firstChild.checked == true){
-    //             e.style.display = 'flex'
-    //         }
-    //         else{
-    //             e.style.display = 'none'
-    //         }
-    //         console.log('clicked complete task')
-    //         // displayPage(currentPage); 
-    //         // updatePagination();
-    //     })
-    // })
-
-
-
-    // displayAll.addEventListener("click", function(e){
-    //     const toselectli = document.querySelectorAll('li')
-    //     toselectli.forEach(function(e){
-    //         e.style.display = 'flex'
-    //         console.log('clicked display all')
-    //         // displayPage(currentPage); 
-    //         // updatePagination();
-    //     })
-    // })
-
-
-
-    // dropdown based filtering:
+    // event listner for all, active complete task filters:
 
     const toselectli = document.querySelectorAll('li')
     const select = document.querySelector('#filters')
-    console.log(select.childNodes)
+    // console.log(select.childNodes)
 
     select.addEventListener('change', (e) => {
         if(select.value == 'All Tasks'){
@@ -424,6 +393,8 @@ function addTask(task, status){
         }
 
         if(select.value == 'Complete Tasks'){
+            // displayPage(currentPage); 
+            updatePagination();
             toselectli.forEach(function(e){
                 if(e.firstChild.checked == true){
                     e.style.display = 'flex'
@@ -431,19 +402,87 @@ function addTask(task, status){
                 else{
                     e.style.display = 'none'
                 }
+                displayPage(currentPage); 
         })
         }
-        
-        displayPage(currentPage); 
-        updatePagination();
+        // displayPage(currentPage); 
     })
 
 
 
 
+    // Event listner for category based filtering:
+
+    const selectCt = document.querySelector('#category')
+    selectCt.addEventListener('change', (e) => {
+
+        // toselectli.forEach(function(e){
+        //     if(e.childNodes[2].id == selectCt.value){
+        //         e.style.display = 'flex';
+        //     }
+        //     else{
+        //         e.style.display = 'none';
+        //     }
+        // })
+
+        if(selectCt.value == 'Work'){
+            toselectli.forEach(function(e){
+                if(e.childNodes[2].id == 'Work'){
+                    e.style.display = 'flex'
+                }
+                else{
+                    e.style.display = 'none'
+                }
+        })
+        }
+
+
+        if(selectCt.value == 'Household'){
+            toselectli.forEach(function(e){
+                if(e.childNodes[2].id == 'Household'){
+                    e.style.display = 'flex'
+                }
+                else{
+                    e.style.display = 'none'
+                }
+        })
+        }
+
+        if(selectCt.value == 'Shopping'){
+            toselectli.forEach(function(e){
+                if(e.childNodes[2].id == 'Shopping'){
+                    e.style.display = 'flex'
+                }
+                else{
+                    e.style.display = 'none'
+                }
+        })
+        }
+
+        if(selectCt.value == 'Others'){
+            toselectli.forEach(function(e){
+                if(e.childNodes[2].id == 'Shopping' || e.childNodes[2].id == 'Work' || e.childNodes[2].id == 'Household'){
+                    e.style.display = 'none'
+                }
+                else{
+                    e.style.display = 'flex'
+                }
+        })
+        }
+
+        
+
+    })
+
+
+
+
+
+
+
+
     
-    displayPage(currentPage); 
-    updatePagination();
+
 
 
 

@@ -23,16 +23,17 @@
 
         <div class="todo-list">
             <div class="input-box">
-                <input type="text" placeholder="Write your tasks here..." id="input-text">
-                <button type="submit" id="submit-task">ADD</button>
+                <input type="text" placeholder="Enter a task" id="input-text">
+                <input type="text" placeholder="Enter a category" id="input-category">
+                <button type="submit" id="submit-task">Add</button>
             </div>
         
 
             <div class="list-contents">
 
                 <div class="headings">
-                    <div class="dropdown">
-                        <p>TASKS</p>
+                    <div class="dropdown" id="task-heading">
+                        <p>Tasks</p>
                         <select name="filters" id="filters">
                             <option value="default" disabled selected></option>
                             <option value="All Tasks">All Tasks</option>
@@ -41,16 +42,20 @@
                         </select>
                     </div>
                     <!-- <p>TASKS</p> -->
-                    <div class="dropdown">
-                        <p>CATEGORY</p>
+                    <div class="dropdown" id="category-heading">
+                        <p>Category</p>
                         <select name="category" id="category">
                             <option value="default" disabled selected></option>
                             <option value="Work">Work</option>
                             <option value="Household">Household</option>
                             <option value="Shopping">Shopping</option>
+                            <option value="Others">Others</option>
                         </select>
                     </div>
-                    <p>ACTIONS</p>
+                    <div class="action-heding">
+                        <p>Actions</p>
+                    </div>
+                    
                 </div>        
             
                 <div id="tasks">
@@ -75,7 +80,7 @@
             <div class="clear-button">
                 
                 <button type="submit" id="clear-btn">
-                    CLEAR ALL TASKS
+                    Clear All Tasks
                 </button>
                 
 

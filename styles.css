@@ -2,13 +2,9 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
-
-body{
     font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
 }
-
-
 
 
 .pacifico-regular {
@@ -35,7 +31,7 @@ nav{
     margin-top: 2em;
     margin-left: 10em;
     margin-right: 10em;
-    gap: 2em;
+    gap: 1.5em;
 }
 
 .input-box{
@@ -81,7 +77,7 @@ button:hover{
 input{
     font-size: 1.5em;
     margin-left: 1em;
-    width: 28em;
+    /* width: 15em; */
     border: none;
     outline: none;
     background-color: transparent;
@@ -100,13 +96,14 @@ input{
 
  li{
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     padding-left: 2em;
     padding-right: 2em;
     padding-top: 1em;
     width: 100%;
     font-weight: 700;
+    gap: 1em;
 }
 
 
@@ -124,7 +121,7 @@ span{
 }
 
 i{
-    font-size: 2em;
+    font-size: 1.5em;
 }
 
 
@@ -138,29 +135,21 @@ i{
 
 #tasks button{
     padding: 0.5em;
-    margin-right: 2em;
+    /* margin-right: 2em; */
     margin-top: 5px;
 }
 
 
 .input-box input[type=text]{
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     /* font-weight: 700; */
+    font-size: 1em;
 }
 
 
 .input-field{
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     /* font-weight: 700;    */
-    font-size: 1.2em;
+    font-size: 1.3em;
     color: black;
-}
-
-
-
-/* why is this not working????? */
-.input-field input[type=text]{
-    text-wrap: wrap;
 }
 
 
@@ -174,12 +163,58 @@ i{
 }
 
 
+
+
 .dropdown{
     display: flex;
     gap: 10px;
 }
 
+/* input fields */
 
+#input-text{
+    width: 30em;
+    border: 0.1px gray dotted;
+}
+
+#input-category{
+    width: 30em;
+    border: 0.1px gray dotted;
+    margin-right: 1em;
+}
+
+.input-field{
+    width: 12em;
+}
+
+.label{
+    width: 15em;
+    font-size: 1.3em;
+    color: black;
+}
+
+button{
+    cursor: pointer;
+}
+
+.page-link{
+    padding: 0px 5px;
+}
+
+#next{
+    padding-left: 6px;
+}
+
+
+.todo-list{
+    position: relative;
+}
+
+.pagination{
+    position: absolute;
+    top: 23em;
+    left: 25em;
+}
 
 
 
