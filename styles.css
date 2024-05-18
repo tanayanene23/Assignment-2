@@ -42,7 +42,7 @@ nav{
     align-items: center;
     justify-content: space-between;    
     border: 0px;
-    /* border-radius: 0.7em; */
+    border-radius: 0.7em;
     box-shadow: 0px 0px 10px 2px gray;
 }
 
@@ -56,9 +56,9 @@ nav{
     /* border-radius: 0.7em; */
     box-shadow: 0px 0px 10px 2px gray;
 
-    overflow-y: scroll;
+    /* overflow-y: scroll;
     overflow-x: hidden;
-    word-wrap: break-word;
+    word-wrap: break-word; */
 }
 
 button{
@@ -174,17 +174,18 @@ i{
 
 #input-text{
     width: 30em;
-    border: 0.1px gray dotted;
+    border-bottom: 0.1px solid grey;
 }
 
 #input-category{
     width: 30em;
-    border: 0.1px gray dotted;
+    /* border: 0.1px gray dotted; */
+    border-bottom: 0.1px solid grey;
     margin-right: 1em;
 }
 
 .input-field{
-    width: 12em;
+    width: 10em;
 }
 
 .label{
@@ -206,17 +207,28 @@ button{
 }
 
 
-.todo-list{
+.list-contents{
     position: relative;
 }
 
 .pagination{
     position: absolute;
-    top: 23em;
-    left: 25em;
+    top: 19em;
+    left: 23em;
+}
+
+.pagination a{
+    text-decoration: none;
 }
 
 
+/* #popup-form{
+    display: block;
+    position: absolute;
+    background-color: red;
+    box-shadow: 10px 10px 10px 10px black;
+    filter: blur(2px);
+} */
 
 
 

@@ -1,15 +1,25 @@
 // taking the input value - enter a new task in input box
+
+// use spread operator for filtering
+
 const input = document.getElementById('input-text');
 const categoryInput = document.getElementById('input-category');
 const todoList = document.getElementById('tasks');
 // clicking the add button for adding a new task
 const submitButton = document.getElementById('submit-task');
 
-
+// flag = false;
 
 submitButton.addEventListener('click', function(e){
     const inputText = input.value;
     const inputCategory = categoryInput.value;
+
+    savedTasks.forEach(t => {
+        if(inputText == t.text){
+            duplicateArray.push(inputText);
+        }
+    })
+    console.log(duplicateArray);
  
     if(inputText == ''){
         alert('Please enter a task');
@@ -23,8 +33,12 @@ submitButton.addEventListener('click', function(e){
     else if(inputCategory.length < 3){
         alert('Enter a valid category')
     }
+    else if(duplicateArray.length !== 0){
+        alert('Please enter a unique value');
+    }
     else{
         addTask(inputText, inputCategory);
+        console.log('addtask gonna exectute')
     }
     // clear the input field after adding task
     input.value = '';    
@@ -42,15 +56,15 @@ const initiate =  function(e){
         if(inputText == ''){
             alert('Please enter a task');
         }
-        else if(inputCategory == ''){
-            alert('Please enter a category');
-        }
+        // else if(inputCategory == ''){
+        //     alert('Please enter a category');
+        // }
         else if(inputText.length < 3){
             alert('Enter a valid task')
         }
-        else if(inputCategory.length < 3){
-            alert('Enter a valid category')
-        }
+        // else if(inputCategory.length < 3){
+        //     alert('Enter a valid category')
+        // }
         else{
             addTask(inputText);
         }
@@ -62,13 +76,8 @@ const initiate =  function(e){
 }
  
 
-
 // submitButton.addEventListener('click', initiate);
-input.addEventListener('keypress', initiate);
-
-
-
- 
+input.addEventListener('keypress', initiate); 
  
  
 //  ----------------------------------addtask function---------------------------
@@ -85,7 +94,6 @@ function addTask(task, taskCategory='', status=false){
     checkbox.setAttribute('class', 'checking');
     checkbox.checked = status;
     listItem.appendChild(checkbox);
-
   
     
     // editable task field
@@ -101,7 +109,6 @@ function addTask(task, taskCategory='', status=false){
     }
 
 
-
     // editable category:
     let label = document.createElement('input')
     label.setAttribute('class', 'label')
@@ -110,12 +117,8 @@ function addTask(task, taskCategory='', status=false){
     label.disabled = true;
     label.value = taskCategory;
     label.setAttribute('id', `${taskCategory}`)
-
-
     listItem.appendChild(label);
 
-
- 
  
     // const deleteeButon = document.createElement('button');
     // deleteeButon.textContent = 'DELETE';
@@ -132,7 +135,7 @@ function addTask(task, taskCategory='', status=false){
  
  
  
-              // editButton event
+              // editButton event            
  
               editButton.addEventListener("click", function(e){
                 if(editButton.classList.contains("fa-pen-to-square")){
@@ -141,6 +144,9 @@ function addTask(task, taskCategory='', status=false){
                
                     // editButton.textContent = "Save"
                     editButton.classList.replace('fa-pen-to-square', 'fa-check');
+
+                    taskText.style.borderBottom = '1px solid grey';
+                    label.style.borderBottom = '1px solid grey';
                     
                 }
                 else
@@ -150,7 +156,9 @@ function addTask(task, taskCategory='', status=false){
 
                     // editButton.textContent = "Edit"
                     editButton.classList.replace('fa-check', 'fa-pen-to-square')
- 
+
+                    taskText.style.border = 'none';
+                    label.style.border = 'none';
 
                 }
                 saveTasksToLocalStorage()
@@ -159,57 +167,52 @@ function addTask(task, taskCategory='', status=false){
 
     listItem.appendChild(editButton);
 
+
+
  
     // delete button
     const deleteButton = document.createElement('i');
     deleteButton.setAttribute('class', 'fa-solid fa-trash')
     deleteButton.style.cursor = 'pointer'
-
-
- 
     listItem.appendChild(deleteButton);
-    todoList.appendChild(listItem);
-   
+    // todoList.appendChild(listItem);
+    // todoList.prepend(listItem);
+    todoList.insertBefore(listItem, todoList.firstChild);
+    // tasks.unshift(new_element); -----> add element to the top of an array
+    // todoList.insertBefore(listItem, todoList.childNodes[0])
+    // you can also do this using display flex column reverse
+    // todoList.insertAdjacentElement('beforebegin', listItem);   ----- he refresh kela ki jatay
  
         // checkbox event
         checkbox.addEventListener('change', function(e){
-      
             // console.log(checkbox.value)
             if(checkbox.checked){
-                
                 taskText.style.textDecoration = 'line-through';
+                // editButton.removeAttribute('class')
                 saveTasksToLocalStorage()
             }
             else{
                 taskText.style.textDecoration = 'none';
                 saveTasksToLocalStorage()
             }
-            
-           
         });
      
- 
- 
-   
-   
+
         // deleteButton event
         deleteButton.addEventListener('click', function(e){
             todoList.removeChild(listItem);
             saveTasksToLocalStorage()
         });   
          saveTasksToLocalStorage();    
+
 }
  
 // ----------------addtask function ends here----------------
 
 
-
- 
     // -----------------local storage implementation----------------------
+
     // to save tasks and status of checkbox
-
-
-
     function saveTasksToLocalStorage() {
         const tasks = [];
         document.querySelectorAll('#tasks li').forEach(task => {
@@ -230,12 +233,56 @@ function addTask(task, taskCategory='', status=false){
 
       
     // get all tasks from local storage
-    const savedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    var savedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
     savedTasks.forEach(task => {
         addTask(task.text,  task.category, task.isCompleted);
     });
- 
 
+
+
+
+
+
+    completedTasks = [];
+    notCompletedTasks = [];
+    finalList = [];
+
+    function checkedTasks(){
+        savedTasks.forEach((task)=>{
+            if(task.isCompleted == true){
+                completedTasks.push(task);
+            }
+            else{
+                notCompletedTasks.push(task);
+            }
+        })
+    }
+
+    console.log(completedTasks)
+    console.log(notCompletedTasks)
+    checkedTasks()
+
+    console.log(completedTasks)
+    console.log(notCompletedTasks)
+
+    finalList = notCompletedTasks.concat(completedTasks)
+    console.log(finalList)
+
+    savedTasks = finalList;
+
+    
+
+    // function to check duplicates
+    function duplicates(input){
+        savedTasks.forEach(t => {
+            if(input == t.text){
+                alert('cannot add duplicates')
+                console.log('if working')
+                // flag = true;
+            }
+        })
+    }
+ 
 
     // ---------------------PAGINATION-------------------------
 
@@ -273,11 +320,11 @@ function addTask(task, taskCategory='', status=false){
 
 
     // function to display tasks for a specific page 
-    function displayPage(page){
+    function displayPage(page, array){
         const startIndex = (page - 1) * tasksPerPage;
         const endIndex = startIndex + tasksPerPage;
 
-        allTasks.forEach((task, index) => {
+        array.forEach((task, index) => {
             if(index >= startIndex && index < endIndex){
                 task.style.display = 'flex';
             }
@@ -286,7 +333,6 @@ function addTask(task, taskCategory='', status=false){
             }
         });
     }
-
 
 
     // // function to update pagination buttons
@@ -301,27 +347,26 @@ function addTask(task, taskCategory='', status=false){
         })
     }
 
-
     // Event listners for buttons and page numbers : 
 
     // Event listner for previous button :
     prevButton.addEventListener("click", () => {
         if(currentPage > 1){
             currentPage--;
-            displayPage(currentPage);
+            displayPage(currentPage, allTasks);
             updatePagination();
         }
-        console.log('prevbutton clicked')
+        // console.log('prevbutton clicked')
     })
 
     // Event listner for next button :
     nextButton.addEventListener("click", () => {
         if(currentPage < totalPages){
             currentPage++;
-            displayPage(currentPage);
+            displayPage(currentPage, allTasks);
             updatePagination();
         }
-        console.log('nextbutton clicked')
+        // console.log('nextbutton clicked')
     })
 
 
@@ -332,28 +377,20 @@ function addTask(task, taskCategory='', status=false){
             const page = parseInt(link.getAttribute('data-page'));
             if(page !== currentPage){
                 currentPage = page;
-                displayPage(currentPage);
+                displayPage(currentPage, allTasks);
                 updatePagination();
             }
         })
     })
 
 
-    displayPage(currentPage); 
+    displayPage(currentPage, allTasks); 
     updatePagination();
-
-
-
-
-
-     
-
 
 
     // ------------------------clear button, active , complete and all tasks event---------------------------
 
 
- 
     // clearButton event - clear all tasks
     const clearButton = document.getElementById('clear-btn');
     clearButton.addEventListener('click', function(e){
@@ -362,9 +399,7 @@ function addTask(task, taskCategory='', status=false){
             deletedLi.forEach(e => e.remove());
         }  
         saveTasksToLocalStorage()
-       
     });
-
 
     // ----------------------dropdown based filtering:---------------------------
 
@@ -374,10 +409,16 @@ function addTask(task, taskCategory='', status=false){
     const select = document.querySelector('#filters')
     // console.log(select.childNodes)
 
+    activeArray = [];
+    completeArray = [];
+
+
     select.addEventListener('change', (e) => {
         if(select.value == 'All Tasks'){
                 toselectli.forEach(function(e){
                     e.style.display = 'flex'
+                    displayPage(currentPage, toselectli)
+                    updatePagination();
                 })
         }
         
@@ -388,9 +429,13 @@ function addTask(task, taskCategory='', status=false){
                 }
                 else{
                     e.style.display = 'flex'
+                    activeArray.push(e);
                 }
+                displayPage(currentPage, activeArray); 
+                updatePagination();                   
         })
         }
+
 
         if(select.value == 'Complete Tasks'){
             // displayPage(currentPage); 
@@ -398,14 +443,16 @@ function addTask(task, taskCategory='', status=false){
             toselectli.forEach(function(e){
                 if(e.firstChild.checked == true){
                     e.style.display = 'flex'
+                    completeArray.push(e);   
                 }
                 else{
                     e.style.display = 'none'
-                }
-                displayPage(currentPage); 
+                }          
+                // console.log(completeArray);
+                displayPage(currentPage, completeArray); 
+                updatePagination();   
         })
         }
-        // displayPage(currentPage); 
     })
 
 
@@ -414,50 +461,18 @@ function addTask(task, taskCategory='', status=false){
     // Event listner for category based filtering:
 
     const selectCt = document.querySelector('#category')
+    othersArray = [];
     selectCt.addEventListener('change', (e) => {
 
-        // toselectli.forEach(function(e){
-        //     if(e.childNodes[2].id == selectCt.value){
-        //         e.style.display = 'flex';
-        //     }
-        //     else{
-        //         e.style.display = 'none';
-        //     }
-        // })
-
-        if(selectCt.value == 'Work'){
-            toselectli.forEach(function(e){
-                if(e.childNodes[2].id == 'Work'){
-                    e.style.display = 'flex'
-                }
-                else{
-                    e.style.display = 'none'
-                }
+        toselectli.forEach(function(e){
+            if(e.childNodes[2].id == selectCt.value){
+                e.style.display = 'flex';
+                valueArray.push(e)
+            }
+            else{
+                e.style.display = 'none';
+            }
         })
-        }
-
-
-        if(selectCt.value == 'Household'){
-            toselectli.forEach(function(e){
-                if(e.childNodes[2].id == 'Household'){
-                    e.style.display = 'flex'
-                }
-                else{
-                    e.style.display = 'none'
-                }
-        })
-        }
-
-        if(selectCt.value == 'Shopping'){
-            toselectli.forEach(function(e){
-                if(e.childNodes[2].id == 'Shopping'){
-                    e.style.display = 'flex'
-                }
-                else{
-                    e.style.display = 'none'
-                }
-        })
-        }
 
         if(selectCt.value == 'Others'){
             toselectli.forEach(function(e){
@@ -466,12 +481,55 @@ function addTask(task, taskCategory='', status=false){
                 }
                 else{
                     e.style.display = 'flex'
+                    valueArray.push(e)
                 }
         })
         }
 
-        
+        // if(selectCt.value == 'Work'){
+        //     toselectli.forEach(function(e){
+        //         if(e.childNodes[2].id == 'Work'){
+        //             e.style.display = 'flex'
+        //         }
+        //         else{
+        //             e.style.display = 'none'
+        //         }
+        // })
+        // }
 
+
+        // if(selectCt.value == 'Household'){
+        //     toselectli.forEach(function(e){
+        //         if(e.childNodes[2].id == 'Household'){
+        //             e.style.display = 'flex'
+        //         }
+        //         else{
+        //             e.style.display = 'none'
+        //         }
+        // })
+        // }
+
+        // if(selectCt.value == 'Shopping'){
+        //     toselectli.forEach(function(e){
+        //         if(e.childNodes[2].id == 'Shopping'){
+        //             e.style.display = 'flex'
+        //         }
+        //         else{
+        //             e.style.display = 'none'
+        //         }
+        // })
+        // }
+
+        // if(selectCt.value == 'Others'){
+        //     toselectli.forEach(function(e){
+        //         if(e.childNodes[2].id == 'Shopping' || e.childNodes[2].id == 'Work' || e.childNodes[2].id == 'Household'){
+        //             e.style.display = 'none'
+        //         }
+        //         else{
+        //             e.style.display = 'flex'
+        //         }
+        // })
+        // }
     })
 
 
